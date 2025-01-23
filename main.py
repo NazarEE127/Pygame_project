@@ -16,9 +16,9 @@ BLACK = (0, 0, 0)
 # Персонаж
 bird_rect = pygame.Rect(50, 300, 30, 30)  # Позиция и размеры персонажа
 
-# Препятствие (сплошная стена) с фиксированной высотой
+# Препятствие (сплошная стена)
 obstacle_width = 70
-obstacle_height = 400  # Фиксированная высота стены
+obstacle_height = 400  # Высота стены
 obstacle_rect = pygame.Rect(WIDTH, HEIGHT - obstacle_height, obstacle_width, obstacle_height)
 
 # Функция проверки столкновений

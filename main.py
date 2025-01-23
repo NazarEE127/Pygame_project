@@ -1,5 +1,5 @@
 import pygame
-from go_interface import display_game_over
+from go_interface import display_game_over  # Импортируем функцию из go_interface
 
 # Инициализация Pygame
 pygame.init()
@@ -7,7 +7,7 @@ pygame.init()
 # Настройки экрана
 WIDTH, HEIGHT = 400, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Flappy Bird Clone")
+pygame.display.set_caption("Springendefaust")
 
 # Цвета
 WHITE = (255, 255, 255)
@@ -15,12 +15,14 @@ BLACK = (0, 0, 0)
 
 # Персонаж
 bird_rect = pygame.Rect(50, 300, 30, 30)  # Позиция и размеры персонажа
+bird_velocity = 0
+gravity = 0.5
 
-# Препятствие (сплошная стена)
 obstacle_width = 70
 obstacle_height = 400  # Высота стены
 obstacle_rect = pygame.Rect(WIDTH, HEIGHT - obstacle_height, obstacle_width, obstacle_height)
 
+# Функция проверки столкновений
 def check_collision(bird_rect, obstacle_rect):
     return bird_rect.colliderect(obstacle_rect)
 
@@ -33,12 +35,27 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+        # Обработка нажатия клавиши пробела или стрелочки вверх для прыжка
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE and not game_over:
+                bird_velocity = -8  # Прыжок
+            elif event.key == pygame.K_UP and not game_over:
+                bird_velocity = -8  # Прыжок
+
+        # Обработка нажатия мыши для прыжка
+        if event.type == pygame.MOUSEBUTTONDOWN and not game_over:
+            bird_velocity = -8  # Прыжок
+
     if not game_over:
+        # Применение гравитации к персонажу
+        bird_velocity += gravity
+        bird_rect.y += bird_velocity
+
         # Движение препятствия
         obstacle_rect.x -= 5  # Скорость движения препятствия влево
 
-        # Проверка на столкновение
-        if check_collision(bird_rect, obstacle_rect):
+        # Проверка на столкновение или выход за пределы экрана
+        if check_collision(bird_rect, obstacle_rect) or bird_rect.y > HEIGHT or bird_rect.y < 0:
             game_over = True
 
         # Отрисовка объектов на экране

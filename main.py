@@ -21,7 +21,6 @@ obstacle_width = 70
 obstacle_height = 400  # Высота стены
 obstacle_rect = pygame.Rect(WIDTH, HEIGHT - obstacle_height, obstacle_width, obstacle_height)
 
-# Функция проверки столкновений
 def check_collision(bird_rect, obstacle_rect):
     return bird_rect.colliderect(obstacle_rect)
 

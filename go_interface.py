@@ -1,5 +1,6 @@
 import pygame
 
+# Надпись "Игра окончена"
 def display_game_over(screen, width, height):
     font = pygame.font.Font(None, 74)
     text_surface = font.render("Игра окончена", True, (255, 0, 0))

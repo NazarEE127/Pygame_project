@@ -21,8 +21,7 @@ BLUE = (0, 0, 255)
 # Настройки игры
 GRAVITY = 0.5
 bird_movement = 0
-game_active = True
-score = 0
+
 
 # Константы
 BIRD_WIDTH = 34
@@ -48,6 +47,7 @@ class Bird(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(load_image("bird.png"), (BIRD_WIDTH, BIRD_HEIGHT))
         self.rect = self.image.get_rect(center=(100, HEIGHT // 2))
         self.velocity = 0
+        self.score = 0
 
     def update(self):
         self.velocity += GRAVITY
@@ -79,6 +79,8 @@ class Up_pipe(pygame.sprite.Sprite):
         self.rect.x -= 5
         if self.rect.x < -PIPE_WIDTH:
             self.kill()
+            bird.score += 1
+
 
 
 # Создание труб
@@ -112,6 +114,9 @@ pipes = pygame.sprite.Group()
 bird = Bird()
 all_sprites.add(bird)
 
+game_active = True
+score = 0
+
 
 SPAWNPIPE = pygame.USEREVENT
 pygame.time.set_timer(SPAWNPIPE, 1300)
@@ -133,11 +138,16 @@ while True:
             bird.flap()
 
         if event.type == SPAWNPIPE:
-            pipes.add(create_pipe())
+            two_pipe = create_pipe()
+            pipes.add(two_pipe)
 
     all_sprites.update()
     screen.fill(WHITE)
     all_sprites.draw(screen)
+    font = pygame.font.Font(None, 50)
+    text_surface = font.render(f"Счёт:{bird.score}", True, (255, 0, 0))
+    text_rect = text_surface.get_rect(center=(50, 50))
+    screen.blit(text_surface, text_rect)
 
     if game_active:
         if pygame.sprite.spritecollide(bird, pipes, False) or bird.rect.top <= -50 or bird.rect.bottom >= HEIGHT:

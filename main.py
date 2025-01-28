@@ -367,5 +367,3 @@ while True:
             bird.rect = bird.image.get_rect(center=(100, HEIGHT // 2))
             bird.velocity = 0
             all_sprites.add(bird)
-
-

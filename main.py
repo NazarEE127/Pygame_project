@@ -7,7 +7,7 @@ import sys
 pygame.init()
 
 # Настройки экрана
-WIDTH, HEIGHT = 400, 600
+WIDTH, HEIGHT = 450, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Flappy Bird")
 
@@ -106,15 +106,77 @@ def menu():
     text_surface2 = main_font.render(f"Бесконечный уровень", True, pygame.Color('black'))
     text_rect2 = text_surface2.get_rect(center=(WIDTH // 2, 100))
 
-    screen.blit(text_surface, text_rect)
-    screen.blit(text_surface2, text_rect2)
     button_surface = pygame.Surface((50, 50))
     button_img = pygame.transform.scale(load_image('button.png'), (50, 50))
     button_surface.blit(button_img, (0, 0))
-
     button_rect = button_surface.get_rect(center=(200, 70))
 
+    text_surface3 = main_font.render(f"1-й уровень", True, pygame.Color('black'))
+    text_rect3 = text_surface3.get_rect(center=(WIDTH // 2, 200))
+
+    button_surface2 = pygame.Surface((50, 50))
+    button_surface2.blit(button_img, (0, 0))
+
+    button_rect2 = button_surface2.get_rect(center=(200, 160))
+
+    text_surface4 = main_font.render(f"2-й уровень", True, pygame.Color('black'))
+    text_rect4 = text_surface3.get_rect(center=(WIDTH // 2, 300))
+
+    button_surface3 = pygame.Surface((50, 50))
+    button_surface3.blit(button_img, (0, 0))
+
+    button_rect3 = button_surface3.get_rect(center=(200, 250))
+
+    screen.blit(text_surface, text_rect)
+    screen.blit(text_surface2, text_rect2)
+    screen.blit(text_surface3, text_rect3)
+    screen.blit(text_surface4, text_rect4)
     screen.blit(button_surface, button_rect)
+    screen.blit(button_surface2, button_rect2)
+    screen.blit(button_surface3, button_rect3)
+
+    text_surface_change_skin = head_font.render(f"Выбор скина", True, pygame.Color('black'))
+    text_rect_change_skin = text_surface_change_skin.get_rect(center=(WIDTH // 2, 350))
+    screen.blit(text_surface_change_skin, text_rect_change_skin)
+
+    bird = Bird()
+    all_sprites.add(bird)
+
+    cur_skin_surface = pygame.Surface((BIRD_WIDTH, BIRD_HEIGHT))
+    cur_skin = bird.image
+    cur_skin_surface.blit(cur_skin, (0, 0))
+    cur_skin_rect = cur_skin_surface.get_rect(center=(WIDTH // 2 + 120, 350))
+    screen.blit(cur_skin_surface, cur_skin_rect)
+
+    skin_surface = pygame.Surface((BIRD_WIDTH*2, BIRD_HEIGHT*2))
+    skin1 = pygame.transform.scale(load_image("bird.png"), (BIRD_WIDTH*2, BIRD_HEIGHT*2))
+    skin_surface.blit(skin1, (0, 0))
+    skin1_rect = skin_surface.get_rect(center=(50, 400))
+    screen.blit(skin_surface, skin1_rect)
+
+    skin2_surface = pygame.Surface((BIRD_WIDTH * 2, BIRD_HEIGHT * 2))
+    skin2 = pygame.transform.scale(load_image("bird2.png"), (BIRD_WIDTH * 2, BIRD_HEIGHT * 2))
+    skin2_surface.blit(skin2, (0, 0))
+    skin2_rect = skin2_surface.get_rect(center=(140, 400))
+    screen.blit(skin2_surface, skin2_rect)
+
+    skin3_surface = pygame.Surface((BIRD_WIDTH * 2, BIRD_HEIGHT * 2))
+    skin3 = pygame.transform.scale(load_image("bird3.png"), (BIRD_WIDTH * 2, BIRD_HEIGHT * 2))
+    skin3_surface.blit(skin3, (0, 0))
+    skin3_rect = skin3_surface.get_rect(center=(230, 400))
+    screen.blit(skin3_surface, skin3_rect)
+
+    skin4_surface = pygame.Surface((BIRD_WIDTH * 2, BIRD_HEIGHT * 2))
+    skin4 = pygame.transform.scale(load_image("bird4.png"), (BIRD_WIDTH * 2, BIRD_HEIGHT * 2))
+    skin4_surface.blit(skin4, (0, 0))
+    skin4_rect = skin4_surface.get_rect(center=(320, 400))
+    screen.blit(skin4_surface, skin4_rect)
+
+    skin5_surface = pygame.Surface((BIRD_WIDTH * 2, BIRD_HEIGHT * 2))
+    skin5 = pygame.transform.scale(load_image("bird5.png"), (BIRD_WIDTH * 2, BIRD_HEIGHT * 2))
+    skin5_surface.blit(skin5, (0, 0))
+    skin5_rect = skin5_surface.get_rect(center=(410, 400))
+    screen.blit(skin5_surface, skin5_rect)
 
     while True:
         for event in pygame.event.get():
@@ -123,7 +185,35 @@ def menu():
                 exit()
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if button_rect.collidepoint(event.pos):
-                    return
+                    return bird
+                if button_rect2.collidepoint(event.pos):
+                    print(1)
+                if button_rect3.collidepoint(event.pos):
+                    print(2)
+
+                if skin1_rect.collidepoint(event.pos):
+                    cur_skin = pygame.transform.scale(load_image("bird.png"), (BIRD_WIDTH, BIRD_HEIGHT))
+                    bird.image = pygame.transform.scale(load_image("bird.png"), (BIRD_WIDTH, BIRD_HEIGHT))
+
+                if skin2_rect.collidepoint(event.pos):
+                    cur_skin = pygame.transform.scale(load_image("bird2.png"), (BIRD_WIDTH, BIRD_HEIGHT))
+                    bird.image = pygame.transform.scale(load_image("bird2.png"), (BIRD_WIDTH, BIRD_HEIGHT))
+
+                if skin3_rect.collidepoint(event.pos):
+                    cur_skin = pygame.transform.scale(load_image("bird3.png"), (BIRD_WIDTH, BIRD_HEIGHT))
+                    bird.image = pygame.transform.scale(load_image("bird3.png"), (BIRD_WIDTH, BIRD_HEIGHT))
+
+                if skin4_rect.collidepoint(event.pos):
+                    cur_skin = pygame.transform.scale(load_image("bird4.png"), (BIRD_WIDTH, BIRD_HEIGHT))
+                    bird.image = pygame.transform.scale(load_image("bird4.png"), (BIRD_WIDTH, BIRD_HEIGHT))
+
+                if skin5_rect.collidepoint(event.pos):
+                    cur_skin = pygame.transform.scale(load_image("bird5.png"), (BIRD_WIDTH, BIRD_HEIGHT))
+                    bird.image = pygame.transform.scale(load_image("bird5.png"), (BIRD_WIDTH, BIRD_HEIGHT))
+
+                cur_skin_surface.blit(cur_skin, (0, 0))
+                cur_skin_rect = cur_skin_surface.get_rect(center=(WIDTH // 2 + 120, 350))
+                screen.blit(cur_skin_surface, cur_skin_rect)
 
         pygame.display.flip()
         clock.tick(60)
@@ -159,7 +249,7 @@ def start_screen():
         clock.tick(60)
 
 
-def infinit_lvl(game_active):
+def infinit_lvl(game_active, bird):
     fon = pygame.transform.scale(load_image('fon.jpg'), (WIDTH, HEIGHT))
 
     while True:
@@ -197,22 +287,32 @@ def infinit_lvl(game_active):
         clock.tick(60)
 
 
-def display_game_over(screen):
+def display_game_over(screen, score):
     screen.fill(WHITE)
 
     font = pygame.font.Font(None, 74)
     text_surface = font.render("Игра окончена", True, (255, 0, 0))
 
-    text_rect = text_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50))
+    text_rect = text_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 200))
+
+    text_score_surface = font.render(f"Ваш счёт: {score}", True, (255, 0, 0))
+
+    text_score_rect = text_score_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 100))
 
     screen.blit(text_surface, text_rect)
+    screen.blit(text_score_surface, text_score_rect)
 
     # Загрузка изображения перезагрузки
     reboot_image = pygame.transform.scale(load_image('reboot.png'), (50, 50))
 
-    reboot_rect = reboot_image.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 50))
+    reboot_rect = reboot_image.get_rect(center=(WIDTH // 2 - 50, HEIGHT // 2 + 50))
+
+    menu_image = pygame.transform.scale(load_image('menu.png'), (50, 50))
+
+    menu_rect = reboot_image.get_rect(center=(WIDTH // 2 + 50, HEIGHT // 2 + 50))
 
     screen.blit(reboot_image, reboot_rect)
+    screen.blit(menu_image, menu_rect)
 
     while True:
         for event in pygame.event.get():
@@ -222,6 +322,8 @@ def display_game_over(screen):
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if reboot_rect.collidepoint(event.pos):
                     return True  # Возвращаем True для перезапуска игры
+                if menu_rect.collidepoint(event.pos):
+                    return False
 
         pygame.display.flip()
         clock.tick(60)
@@ -233,29 +335,37 @@ clock = pygame.time.Clock()
 all_sprites = pygame.sprite.Group()
 pipes = pygame.sprite.Group()
 
-bird = Bird()
-all_sprites.add(bird)
 
 game_active = True
-
+menu_active = False
 SPAWNPIPE = pygame.USEREVENT
 pygame.time.set_timer(SPAWNPIPE, 1300)
 
 while True:
-    start_screen()
-    menu()
+    if menu_active is False:
+        start_screen()
+
+    bird = menu()
 
     # Игровой цикл
     while game_active:
-        infinit_lvl(game_active)
+        infinit_lvl(game_active, bird)
 
         # Проверка на завершение игры и отображение экрана завершения
-        game_active_result = display_game_over(screen)
+        game_active_result = display_game_over(screen, bird.score)
+        if game_active_result is False:
+            menu_active = True
+            all_sprites.empty()
+            pipes.empty()
+            break
 
         # Если игра завершена и возвращаемся в основной цикл для перезапуска игры.
         if game_active_result:
             all_sprites.empty()
             pipes.empty()
             bird.score = 0
-            bird.__init__()
+            bird.rect = bird.image.get_rect(center=(100, HEIGHT // 2))
+            bird.velocity = 0
             all_sprites.add(bird)
+
+

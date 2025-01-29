@@ -2,6 +2,21 @@ import pygame
 import random
 import os
 import sys
+import socket
+
+ip_adress = socket.gethostbyname(socket.gethostname())
+
+data = list(map(str.strip, open("user_data.txt", "r").readlines()))
+for i in range(1, len(data)+1):
+    if len(data) != 1:
+        if str(ip_adress) in data[i]:
+            break
+    else:
+        data.append(f"{ip_adress};bird.png;0;0")
+        with open("user_data.txt", "w") as f:
+            f.write(f"{data[0]}\n{ip_adress};bird.png;0;0\n")
+        break
+
 
 # Инициализация Pygame
 pygame.init()
@@ -40,7 +55,7 @@ def load_image(name):
 class Bird(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.transform.scale(load_image("bird.png"), (BIRD_WIDTH, BIRD_HEIGHT))
+        self.image = pygame.transform.scale(load_image(data[1].split(";")[1]), (BIRD_WIDTH, BIRD_HEIGHT))
         self.rect = self.image.get_rect(center=(100, HEIGHT // 2))
         self.velocity = 0
         self.score = 0
@@ -178,6 +193,14 @@ def menu():
     skin5_rect = skin5_surface.get_rect(center=(410, 400))
     screen.blit(skin5_surface, skin5_rect)
 
+    text_surface_record = head_font.render(f"Рекорд: {data[1].split(';')[2]}", True, pygame.Color('black'))
+    text_rect_record = text_surface_record.get_rect(center=(70, 500))
+    screen.blit(text_surface_record, text_rect_record)
+
+    text_surface_all_score = head_font.render(f"Счёт за всё время: {data[1].split(';')[3]}", True, pygame.Color('black'))
+    text_rect_all_score = text_surface_all_score.get_rect(center=(150, 535))
+    screen.blit(text_surface_all_score, text_rect_all_score)
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -192,22 +215,37 @@ def menu():
                     print(2)
 
                 if skin1_rect.collidepoint(event.pos):
+                    data[1] = f'{data[1].split(";")[0]};bird.png;{data[1].split(";")[2]};{data[1].split(";")[3]}'
+                    with open("user_data.txt", "w") as f:
+                        f.write(f'ip;cur_skin;record;all_score\n{data[1]}')
                     cur_skin = pygame.transform.scale(load_image("bird.png"), (BIRD_WIDTH, BIRD_HEIGHT))
                     bird.image = pygame.transform.scale(load_image("bird.png"), (BIRD_WIDTH, BIRD_HEIGHT))
 
                 if skin2_rect.collidepoint(event.pos):
+                    data[1] = f'{data[1].split(";")[0]};bird2.png;{data[1].split(";")[2]};{data[1].split(";")[3]}'
+                    with open("user_data.txt", "w") as f:
+                       f.write(f'ip;cur_skin;record;all_score\n{data[1]}')
                     cur_skin = pygame.transform.scale(load_image("bird2.png"), (BIRD_WIDTH, BIRD_HEIGHT))
                     bird.image = pygame.transform.scale(load_image("bird2.png"), (BIRD_WIDTH, BIRD_HEIGHT))
 
                 if skin3_rect.collidepoint(event.pos):
+                    data[1] = f'{data[1].split(";")[0]};bird3.png;{data[1].split(";")[2]};{data[1].split(";")[3]}'
+                    with open("user_data.txt", "w") as f:
+                        f.write(f'ip;cur_skin;record;all_score\n{data[1]}')
                     cur_skin = pygame.transform.scale(load_image("bird3.png"), (BIRD_WIDTH, BIRD_HEIGHT))
                     bird.image = pygame.transform.scale(load_image("bird3.png"), (BIRD_WIDTH, BIRD_HEIGHT))
 
                 if skin4_rect.collidepoint(event.pos):
+                    data[1] = f'{data[1].split(";")[0]};bird4.png;{data[1].split(";")[2]};{data[1].split(";")[3]}'
+                    with open("user_data.txt", "w") as f:
+                        f.write(f'ip;cur_skin;record;all_score\n{data[1]}')
                     cur_skin = pygame.transform.scale(load_image("bird4.png"), (BIRD_WIDTH, BIRD_HEIGHT))
                     bird.image = pygame.transform.scale(load_image("bird4.png"), (BIRD_WIDTH, BIRD_HEIGHT))
 
                 if skin5_rect.collidepoint(event.pos):
+                    data[1] = f'{data[1].split(";")[0]};bird5.png;{data[1].split(";")[2]};{data[1].split(";")[3]}'
+                    with open("user_data.txt", "w") as f:
+                        f.write(f'ip;cur_skin;record;all_score\n{data[1]}')
                     cur_skin = pygame.transform.scale(load_image("bird5.png"), (BIRD_WIDTH, BIRD_HEIGHT))
                     bird.image = pygame.transform.scale(load_image("bird5.png"), (BIRD_WIDTH, BIRD_HEIGHT))
 
@@ -278,7 +316,13 @@ def infinit_lvl(game_active, bird):
         if game_active:
             if pygame.sprite.spritecollide(bird, pipes, False) or bird.rect.top <= -50 or bird.rect.bottom >= HEIGHT:
                 game_active = False
-
+                record = int(data[1].split(";")[2])
+                if bird.score > record:
+                    data[1] = f'{data[1].split(";")[0]};{data[1].split(";")[1]};{bird.score};{int(data[1].split(";")[3])+bird.score}'
+                else:
+                    data[1] = f'{data[1].split(";")[0]};{data[1].split(";")[1]};{data[1].split(";")[2]};{int(data[1].split(";")[3]) + bird.score}'
+                with open("user_data.txt", "w") as f:
+                    f.write(f'ip;cur_skin;record;all_score\n{data[1]}')
             draw_pipes(pipes)
         else:
             return

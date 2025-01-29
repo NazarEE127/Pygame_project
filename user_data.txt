@@ -1,0 +1,1 @@
+ip;cur_skin;record;all_score

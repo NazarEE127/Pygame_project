@@ -36,6 +36,13 @@ BLUE = (0, 0, 255)
 GRAVITY = 0.5
 bird_movement = 0
 
+#Настройка музыки
+pygame.mixer.music.load(os.path.join('data', "background_music.mp3"))
+pygame.mixer.music.play(-1)
+sound_hit = pygame.mixer.Sound(os.path.join('data', "hit.wav"))
+sound_jump = pygame.mixer.Sound(os.path.join('data', "jump.wav"))
+sound_point = pygame.mixer.Sound(os.path.join('data', "point.wav"))
+
 # Константы
 BIRD_WIDTH = 34
 BIRD_HEIGHT = 24
@@ -91,6 +98,7 @@ class Up_pipe(pygame.sprite.Sprite):
         if self.rect.x < -PIPE_WIDTH:
             self.kill()
             bird.score += 1
+            sound_point.play()
 
 
 # Создание труб
@@ -111,6 +119,7 @@ def draw_pipes(pipes):
 
 
 def menu():
+    pygame.mixer.music.pause()
     fon = pygame.transform.scale(load_image('menu_fon.jpg'), (WIDTH, HEIGHT))
     screen.blit(fon, (0, 0))
     head_font = pygame.font.Font(None, 40)
@@ -288,6 +297,7 @@ def start_screen():
 
 
 def infinit_lvl(game_active, bird):
+    pygame.mixer.music.play(-1)
     fon = pygame.transform.scale(load_image('fon.jpg'), (WIDTH, HEIGHT))
 
     while True:
@@ -298,9 +308,11 @@ def infinit_lvl(game_active, bird):
             if event.type == pygame.KEYDOWN and game_active:
                 if event.key == pygame.K_SPACE or event.key == pygame.K_UP:
                     bird.flap()
+                    sound_jump.play()
 
             if event.type == pygame.MOUSEBUTTONDOWN and game_active:
                 bird.flap()
+                sound_jump.play()
 
             if event.type == SPAWNPIPE:
                 create_pipe()
@@ -323,6 +335,7 @@ def infinit_lvl(game_active, bird):
                     data[1] = f'{data[1].split(";")[0]};{data[1].split(";")[1]};{data[1].split(";")[2]};{int(data[1].split(";")[3]) + bird.score}'
                 with open("user_data.txt", "w") as f:
                     f.write(f'ip;cur_skin;record;all_score\n{data[1]}')
+                sound_hit.play()
             draw_pipes(pipes)
         else:
             return

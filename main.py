@@ -7,7 +7,7 @@ import socket
 ip_adress = socket.gethostbyname(socket.gethostname())
 
 data = list(map(str.strip, open("user_data.txt", "r").readlines()))
-for i in range(1, len(data)+1):
+for i in range(1, len(data)):
     if len(data) != 1:
         if str(ip_adress) in data[i]:
             break
@@ -38,10 +38,14 @@ bird_movement = 0
 
 #Настройка музыки
 pygame.mixer.music.load(os.path.join('data', "background_music.mp3"))
+pygame.mixer.music.set_volume(0.08)
 pygame.mixer.music.play(-1)
 sound_hit = pygame.mixer.Sound(os.path.join('data', "hit.wav"))
 sound_jump = pygame.mixer.Sound(os.path.join('data', "jump.wav"))
 sound_point = pygame.mixer.Sound(os.path.join('data', "point.wav"))
+sound_hit.set_volume(0.1)
+sound_jump.set_volume(0.2)
+sound_point.set_volume(0.1)
 
 # Константы
 BIRD_WIDTH = 34
@@ -321,8 +325,8 @@ def infinit_lvl(game_active, bird):
         screen.blit(fon, (0, 0))
         all_sprites.draw(screen)
         font = pygame.font.Font(None, 50)
-        text_surface = font.render(f"Счёт:{bird.score}", True, (255, 0, 0))
-        text_rect = text_surface.get_rect(center=(60, 30))
+        text_surface = font.render(f"Счёт: {bird.score}", True, (255, 0, 0))
+        text_rect = text_surface.get_rect(center=(70, 30))
         screen.blit(text_surface, text_rect)
 
         if game_active:

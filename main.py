@@ -7,7 +7,7 @@ import socket
 ip_adress = socket.gethostbyname(socket.gethostname())
 
 data = list(map(str.strip, open("user_data.txt", "r").readlines()))
-for i in range(1, len(data)):
+for i in range(1, len(data)+1):
     if len(data) != 1:
         if str(ip_adress) in data[i]:
             break
@@ -16,7 +16,6 @@ for i in range(1, len(data)):
         with open("user_data.txt", "w") as f:
             f.write(f"{data[0]}\n{ip_adress};bird.png;0;0\n")
         break
-
 
 # Инициализация Pygame
 pygame.init()
@@ -55,7 +54,7 @@ PIPE_HEIGHT = 500
 FLAP_STRENGTH = -10
 
 
-def load_image(name):
+def load_image(name, colorkey=None):
     fullname = os.path.join('data', name)
     if not os.path.isfile(fullname):
         print(f"Файл с изображением '{fullname}' не найден")
@@ -124,7 +123,7 @@ def draw_pipes(pipes):
 
 def menu():
     pygame.mixer.music.pause()
-    fon = pygame.transform.scale(load_image('menu_fon.jpg'), (WIDTH, HEIGHT))
+    fon = pygame.transform.scale(load_image('menu_fon.png'), (WIDTH, HEIGHT))
     screen.blit(fon, (0, 0))
     head_font = pygame.font.Font(None, 40)
     text_surface = head_font.render(f"Меню", True, pygame.Color('black'))

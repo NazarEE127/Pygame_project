@@ -1,2 +1,2 @@
 ip;cur_skin;record;all_score
-169.254.109.74;bird.png;0;0
+169.254.109.74;bird5.png;0;0

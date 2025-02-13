@@ -9,7 +9,7 @@ ip_adress = socket.gethostbyname(socket.gethostname())
 data = list(map(str.strip, open("user_data.txt", "r").readlines()))
 for i in range(1, len(data)+1):
     if len(data) != 1:
-        if str(ip_adress) in data[i]:
+        if str(ip_adress) in data[i - 1]:
             break
     else:
         data.append(f"{ip_adress};bird.png;0;0")
@@ -133,7 +133,7 @@ def menu():
     text_surface2 = main_font.render(f"Бесконечный уровень", True, pygame.Color('black'))
     text_rect2 = text_surface2.get_rect(center=(WIDTH // 2, 100))
 
-    button_surface = pygame.Surface((50, 50))
+    button_surface = pygame.Surface((50, 50), pygame.SRCALPHA)
     button_img = pygame.transform.scale(load_image('button.png'), (50, 50))
     button_surface.blit(button_img, (0, 0))
     button_rect = button_surface.get_rect(center=(200, 70))
@@ -141,7 +141,7 @@ def menu():
     text_surface3 = main_font.render(f"1-й уровень", True, pygame.Color('black'))
     text_rect3 = text_surface3.get_rect(center=(WIDTH // 2, 200))
 
-    button_surface2 = pygame.Surface((50, 50))
+    button_surface2 = pygame.Surface((50, 50), pygame.SRCALPHA)
     button_surface2.blit(button_img, (0, 0))
 
     button_rect2 = button_surface2.get_rect(center=(200, 160))
@@ -149,7 +149,7 @@ def menu():
     text_surface4 = main_font.render(f"2-й уровень", True, pygame.Color('black'))
     text_rect4 = text_surface3.get_rect(center=(WIDTH // 2, 300))
 
-    button_surface3 = pygame.Surface((50, 50))
+    button_surface3 = pygame.Surface((50, 50), pygame.SRCALPHA)
     button_surface3.blit(button_img, (0, 0))
 
     button_rect3 = button_surface3.get_rect(center=(200, 250))
@@ -169,37 +169,35 @@ def menu():
     bird = Bird()
     all_sprites.add(bird)
 
-    cur_skin_surface = pygame.Surface((BIRD_WIDTH, BIRD_HEIGHT))
+    cur_skin_surface = pygame.Surface((BIRD_WIDTH, BIRD_HEIGHT), pygame.SRCALPHA) # Делаем поверхность прозрачной
     cur_skin = bird.image
-    cur_skin_surface.blit(cur_skin, (0, 0))
     cur_skin_rect = cur_skin_surface.get_rect(center=(WIDTH // 2 + 120, 350))
-    screen.blit(cur_skin_surface, cur_skin_rect)
 
-    skin_surface = pygame.Surface((BIRD_WIDTH*2, BIRD_HEIGHT*2))
+    skin_surface = pygame.Surface((BIRD_WIDTH*2, BIRD_HEIGHT*2), pygame.SRCALPHA)
     skin1 = pygame.transform.scale(load_image("bird.png"), (BIRD_WIDTH*2, BIRD_HEIGHT*2))
     skin_surface.blit(skin1, (0, 0))
     skin1_rect = skin_surface.get_rect(center=(50, 400))
     screen.blit(skin_surface, skin1_rect)
 
-    skin2_surface = pygame.Surface((BIRD_WIDTH * 2, BIRD_HEIGHT * 2))
+    skin2_surface = pygame.Surface((BIRD_WIDTH * 2, BIRD_HEIGHT * 2), pygame.SRCALPHA)
     skin2 = pygame.transform.scale(load_image("bird2.png"), (BIRD_WIDTH * 2, BIRD_HEIGHT * 2))
     skin2_surface.blit(skin2, (0, 0))
     skin2_rect = skin2_surface.get_rect(center=(140, 400))
     screen.blit(skin2_surface, skin2_rect)
 
-    skin3_surface = pygame.Surface((BIRD_WIDTH * 2, BIRD_HEIGHT * 2))
+    skin3_surface = pygame.Surface((BIRD_WIDTH * 2, BIRD_HEIGHT * 2), pygame.SRCALPHA)
     skin3 = pygame.transform.scale(load_image("bird3.png"), (BIRD_WIDTH * 2, BIRD_HEIGHT * 2))
     skin3_surface.blit(skin3, (0, 0))
     skin3_rect = skin3_surface.get_rect(center=(230, 400))
     screen.blit(skin3_surface, skin3_rect)
 
-    skin4_surface = pygame.Surface((BIRD_WIDTH * 2, BIRD_HEIGHT * 2))
+    skin4_surface = pygame.Surface((BIRD_WIDTH * 2, BIRD_HEIGHT * 2), pygame.SRCALPHA)
     skin4 = pygame.transform.scale(load_image("bird4.png"), (BIRD_WIDTH * 2, BIRD_HEIGHT * 2))
     skin4_surface.blit(skin4, (0, 0))
     skin4_rect = skin4_surface.get_rect(center=(320, 400))
     screen.blit(skin4_surface, skin4_rect)
 
-    skin5_surface = pygame.Surface((BIRD_WIDTH * 2, BIRD_HEIGHT * 2))
+    skin5_surface = pygame.Surface((BIRD_WIDTH * 2, BIRD_HEIGHT * 2), pygame.SRCALPHA)
     skin5 = pygame.transform.scale(load_image("bird5.png"), (BIRD_WIDTH * 2, BIRD_HEIGHT * 2))
     skin5_surface.blit(skin5, (0, 0))
     skin5_rect = skin5_surface.get_rect(center=(410, 400))
@@ -261,9 +259,9 @@ def menu():
                     cur_skin = pygame.transform.scale(load_image("bird5.png"), (BIRD_WIDTH, BIRD_HEIGHT))
                     bird.image = pygame.transform.scale(load_image("bird5.png"), (BIRD_WIDTH, BIRD_HEIGHT))
 
-                cur_skin_surface.blit(cur_skin, (0, 0))
-                cur_skin_rect = cur_skin_surface.get_rect(center=(WIDTH // 2 + 120, 350))
-                screen.blit(cur_skin_surface, cur_skin_rect)
+        cur_skin_surface.blit(fon, (0, 0)) # Очистка фона при выборе скина
+        cur_skin_surface.blit(cur_skin, (0, 0))
+        screen.blit(cur_skin_surface, cur_skin_rect)
 
         pygame.display.flip()
         clock.tick(60)
